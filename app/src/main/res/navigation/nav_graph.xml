@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/search_city_fragment">
 
+    <fragment android:id="@+id/search_city_fragment"
+        android:label="City name"
+        android:name="com.alalmiyaalhura.forecastapp.ui.search_city.SearchCityFragment"
+        tools:layout="@layout/fragment_search_city"
+        >
+        <action android:id="@+id/action_searchCityFragment_to_dailyForecastFragment"
+            app:destination="@id/daily_forecast_fragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/daily_forecast_fragment"
+        android:name="com.alalmiyaalhura.forecastapp.ui.get_daily_forecast.DailyForecastFragment"
+        tools:layout="@layout/fragment_daily_forecast">
+
+
+        <argument android:name="cityName"
+            app:nullable="false"
+            app:argType="string"
+            />
+
+    </fragment>
 </navigation>
