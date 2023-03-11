@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.alalmiyaalhura.forecastapp.R
 import com.alalmiyaalhura.forecastapp.databinding.FragmentSearchCityBinding
 import com.alalmiyaalhura.forecastapp.ui.util.ActionbarUtil
-import com.alalmiyaalhura.forecastapp.ui.util.MessageLogger
+import com.alalmiyaalhura.forecastapp.ui.util.MyToast
 import com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator
 
 
@@ -48,9 +48,10 @@ class SearchCityFragment : Fragment(R.layout.fragment_search_city) {
         binding.goToDailyForecastFab.setOnClickListener {
             val cityName = binding.cityEditText.text?.trim().toString()
 
-            if (cityName.isEmpty())
-                MessageLogger.shortToast(requireContext(), getString(R.string.city_invalid))
-            else
+            if (cityName.isEmpty()) {
+                val myToast = MyToast()
+                myToast.showMessage(binding.root, getString(R.string.city_invalid))
+            }else
                 ScreensNavigator.navigateToDailyForecastPage(cityName, findNavController())
         }
     }

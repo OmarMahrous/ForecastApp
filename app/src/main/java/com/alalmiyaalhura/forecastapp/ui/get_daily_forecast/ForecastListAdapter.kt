@@ -1,14 +1,24 @@
 package com.alalmiyaalhura.forecastapp.ui.get_daily_forecast
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.alalmiyaalhura.forecastapp.R
+import com.alalmiyaalhura.forecastapp.data.model.Forecast
+import com.alalmiyaalhura.forecastapp.databinding.ForecastListItemBinding
 
-class ForecastListAdapter : RecyclerView.Adapter<ForecastListAdapter.ForecastViewHolder>() {
+class ForecastListAdapter(val context: Context,
+                          val forecastList: List<Forecast>)
+    : RecyclerView.Adapter<ForecastListAdapter.ForecastViewHolder>() {
+
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
-//        TODO("Not yet implemented")
+        val binding = ForecastListItemBinding.inflate(LayoutInflater.from(context), parent, false)
+
+        return ForecastViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
@@ -16,10 +26,10 @@ class ForecastListAdapter : RecyclerView.Adapter<ForecastListAdapter.ForecastVie
     }
 
     override fun getItemCount(): Int {
-//        TODO("Not yet implemented")
+        return forecastList.size
     }
 
-    class ForecastViewHolder() : RecyclerView.ViewHolder() {
+    class ForecastViewHolder(binding:ForecastListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
 }
