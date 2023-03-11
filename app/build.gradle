@@ -25,6 +25,13 @@ android {
     }
 
     buildTypes {
+
+        def FORECAST_API_KEY = "FORECAST_API_KEY"
+
+        debug {
+            buildConfigField "String", FORECAST_API_KEY, "\"19959d991907500fc7368335c0e81721\""
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -47,6 +47,7 @@ class SearchCityFragment : Fragment(R.layout.fragment_search_city) {
     private fun initUiViews() {
         binding.goToDailyForecastFab.setOnClickListener {
             val cityName = binding.cityEditText.text?.trim().toString()
+
             if (cityName.isEmpty())
                 MessageLogger.shortToast(requireContext(), getString(R.string.city_invalid))
             else
