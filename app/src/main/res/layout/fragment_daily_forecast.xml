@@ -14,8 +14,10 @@
             android:id="@+id/action_bar_include"/>
 
         <LinearLayout
+            android:id="@+id/forecast_data_llayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:padding="16dp"
             android:orientation="vertical">
 
@@ -29,6 +31,13 @@
 
 
         </LinearLayout>
+
+        <include
+            android:id="@+id/loading_layout_include"
+            layout="@layout/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 </layout>

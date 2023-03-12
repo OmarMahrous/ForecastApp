@@ -98,6 +98,7 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
             viewModel.getForecasts().collect { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
+                        showLoadingLayout(false)
 
                         val data = resource.data
 
@@ -108,13 +109,15 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
                                 "forecast list size = ${data?.size}")
                     }
                     Status.ERROR ->{
+                        showLoadingLayout(false)
 
                         val snackbar = MySnackbar()
                         snackbar.showMessage(binding.root, resource.message?:"Unknown error")
 
                     }
 
-                    else -> { // TODO show loading progress }
+                    else -> {
+                        showLoadingLayout(true)
                     }
                 }
             }
@@ -132,6 +135,15 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
         }
     }
 
+    private fun showLoadingLayout(isLoadingData:Boolean){
+        if (isLoadingData){
+            binding.forecastDataLlayout.visibility = View.GONE
+            binding.loadingLayoutInclude.root.visibility = View.VISIBLE
+        }else{
+            binding.forecastDataLlayout.visibility = View.VISIBLE
+            binding.loadingLayoutInclude.root.visibility = View.GONE
+        }
+    }
 
 
     private fun updateUiListComponent(forecastList: List<Forecast?>?) {
