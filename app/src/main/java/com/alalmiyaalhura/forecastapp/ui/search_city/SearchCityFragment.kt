@@ -27,6 +27,9 @@ class SearchCityFragment : Fragment(R.layout.fragment_search_city) {
 //    private var listAdapter:CompetitionsAdapter?=null
 
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

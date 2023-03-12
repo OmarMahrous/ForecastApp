@@ -19,7 +19,8 @@
         tools:layout="@layout/fragment_daily_forecast">
 
 
-        <argument android:name="cityName"
+        <argument
+            android:name="com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator.CITY_NAME"
             app:nullable="false"
             app:argType="string"
             />
