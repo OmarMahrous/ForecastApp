@@ -1,33 +1,52 @@
 package com.alalmiyaalhura.forecastapp.data.model
 
 import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Forecast(val dt:Int,
+@Entity(tableName = "forecast_table")
+data class Forecast(
+    @SerializedName("dt")
+    @Expose
+    private val dt:Int,
+
 @SerializedName("main")
 @Expose
 @Embedded
 private val main:CityMainData,
-    @SerializedName("weather")
+
+@SerializedName("weather")
 @Expose
 private val weatherList:List<Weather>,
+
 @SerializedName("clouds")
 @Expose
-private val clouds:Any,
+@Embedded
+private val clouds:Clouds,
+
 @SerializedName("wind")
 @Expose
-private val wind:Any,
+@Embedded
+private val wind:Wind,
+
 @SerializedName("visibility")
 @Expose
 private val visibility:Int,
+
 @SerializedName("pop")
 @Expose
 private val pop:Int,
+
 @SerializedName("sys")
 @Expose
-private val sys:Any,
+@Embedded
+private val sys:Sys,
+
 @SerializedName("dt_txt")
 @Expose
-private val dtTxt:String
+private val dtTxt:String,
+
+@PrimaryKey(autoGenerate = true) val id: Int
 )
