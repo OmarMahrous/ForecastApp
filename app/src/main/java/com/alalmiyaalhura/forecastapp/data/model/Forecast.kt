@@ -38,7 +38,7 @@ data class Forecast(
 
 @SerializedName("pop")
 @Expose
- val pop:Int? = null,
+ val pop:Double? = null,
 
 @SerializedName("sys")
 @Expose

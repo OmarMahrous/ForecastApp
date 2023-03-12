@@ -52,11 +52,12 @@ class SearchCityFragment : Fragment(R.layout.fragment_search_city) {
             val cityName = binding.cityEditText.text?.trim().toString()
 
             if (cityName.isEmpty()) {
-                val myToast = MyToast()
-                myToast.showMessage(binding.root, getString(R.string.city_invalid))
-            }else
+                binding.cityInputLayout.error = getString(R.string.city_invalid)
+            }else {
+                binding.cityInputLayout.error = null
                 ScreensNavigator.navigateToDailyForecastPage(cityName, findNavController())
-        }
+            }
+            }
     }
 
     private fun getSearchInputFromUser() {
