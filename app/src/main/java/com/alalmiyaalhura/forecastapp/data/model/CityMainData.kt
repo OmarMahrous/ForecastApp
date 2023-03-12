@@ -4,32 +4,40 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class CityMainData(
-    @SerializedName("temp")
-    @Expose
-    private val temp:Double,
+@SerializedName("temp")
+@Expose
+ var temp:Double?=null,
+
 @SerializedName("feels_like")
 @Expose
-private val feelsLike:Double,
+ var feelsLike:Double?=null,
+
 @SerializedName("temp_min")
 @Expose
-private val tempMin:Double,
+ var tempMin:Double?=null,
+
 @SerializedName("temp_max")
 @Expose
-private val tempMax:Double,
+ var tempMax:Double?=null,
+
 @SerializedName("pressure")
 @Expose
-private val pressure:Int,
+ var pressure:Int?=null,
+
 @SerializedName("sea_level")
 @Expose
-private val seaLevel:Int,
+ var seaLevel:Int?=null,
+
 @SerializedName("grnd_level")
 @Expose
-private val grndLevel:Int,
+ var grndLevel:Int?=null,
+
 @SerializedName("humidity")
 @Expose
-private val humidity:Int,
+ var humidity:Int?=null,
+
 @SerializedName("temp_kf")
 @Expose
-private val tempKf:Double
+ var tempKf:Double?=null
 ) {
 }

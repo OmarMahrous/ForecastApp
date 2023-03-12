@@ -3,6 +3,7 @@ package com.alalmiyaalhura.forecastapp.data.model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -10,43 +11,43 @@ import com.google.gson.annotations.SerializedName
 data class Forecast(
     @SerializedName("dt")
     @Expose
-    private val dt:Int,
+     val dt:Int? = null,
 
 @SerializedName("main")
 @Expose
 @Embedded
-private val main:CityMainData,
+ val main:CityMainData? = null,
 
 @SerializedName("weather")
 @Expose
-private val weatherList:List<Weather>,
+ val weatherList:List<Weather>?,
 
 @SerializedName("clouds")
 @Expose
 @Embedded
-private val clouds:Clouds,
+ val clouds:Clouds? = null,
 
 @SerializedName("wind")
 @Expose
 @Embedded
-private val wind:Wind,
+ val wind:Wind? = null,
 
 @SerializedName("visibility")
 @Expose
-private val visibility:Int,
+ val visibility:Int? = null,
 
 @SerializedName("pop")
 @Expose
-private val pop:Int,
+ val pop:Int? = null,
 
 @SerializedName("sys")
 @Expose
 @Embedded
-private val sys:Sys,
+ val sys:Sys? = null,
 
 @SerializedName("dt_txt")
 @Expose
-private val dtTxt:String,
+ val dtTxt:String? = null,
 
-@PrimaryKey(autoGenerate = true) val id: Int
+@PrimaryKey(autoGenerate = true) var id: Int? = null
 )

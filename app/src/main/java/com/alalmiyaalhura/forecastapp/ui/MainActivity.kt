@@ -8,11 +8,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.alalmiyaalhura.forecastapp.R
 import com.alalmiyaalhura.forecastapp.ui.util.ActionbarUtil
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
  * Created by Omar Mahrous in 09/03/2023
  */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 

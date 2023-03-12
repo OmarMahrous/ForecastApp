@@ -6,5 +6,5 @@ import com.google.gson.annotations.SerializedName
 data class Clouds(
     @SerializedName("all")
     @Expose
-    private val all:Int
+     var all:Int?=null
 )
