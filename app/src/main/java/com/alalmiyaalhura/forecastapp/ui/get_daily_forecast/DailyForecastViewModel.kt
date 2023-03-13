@@ -12,6 +12,7 @@ import com.alalmiyaalhura.forecastapp.data.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,10 +47,12 @@ class DailyForecastViewModel constructor(
         }
     }
 
+
     internal class ForecastViewModelFactory(
         private val forecastApi: ForecastApi,
         private val forecastDao: ForecastDao,
-        private val cityName:String)
+        private val cityName:String
+    )
         : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

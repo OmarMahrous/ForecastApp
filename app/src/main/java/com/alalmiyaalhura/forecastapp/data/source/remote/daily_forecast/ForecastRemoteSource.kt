@@ -47,6 +47,7 @@ class ForecastRemoteSource(val forecastApi: ForecastApi) : DataSource<Resource<L
             }
         }catch (e:Exception){
             e.printStackTrace()
+            mDataApi.value = Resource.error(e.message?:"Unknown error")
         }
 
     }

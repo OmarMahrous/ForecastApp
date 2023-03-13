@@ -18,6 +18,10 @@
         android:name="com.alalmiyaalhura.forecastapp.ui.get_daily_forecast.DailyForecastFragment"
         tools:layout="@layout/fragment_daily_forecast">
 
+        <action android:id="@+id/action_dailyForecastFragment_to_dataErrorDialogFragment"
+            app:destination="@id/data_error_dialog_fragment"
+            />
+
 
         <argument
             android:name="com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator.CITY_NAME"
@@ -25,5 +29,25 @@
             app:argType="string"
             />
 
+
     </fragment>
+
+    <dialog android:id="@+id/data_error_dialog_fragment"
+        android:name="com.alalmiyaalhura.forecastapp.ui.data_error_dialog.DataErrorDialogFragment"
+        >
+
+        <argument
+            android:name="com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator.DIALOG_MESSAGE"
+            app:nullable="false"
+            app:argType="string"
+            />
+
+        <action android:id="@+id/action_errorDialogFragment_to_dailyForecastFragment"
+            app:destination="@id/daily_forecast_fragment"
+            app:popUpTo="@+id/data_error_dialog_fragment"
+            app:popUpToInclusive="true"/>
+
+
+    </dialog>
+
 </navigation>

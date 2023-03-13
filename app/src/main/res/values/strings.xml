@@ -5,4 +5,8 @@
     <string name="city_invalid">Please enter your city !</string>
     <string name="loading_data_from_server">Loading data from server</string>
     <string name="please_wait">Please wait ...</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_title">Loading daily forecast</string>
+    <string name="dialog_message">Sorry, can\'t load data</string>
+    <string name="retry">Retry</string>
 </resources>

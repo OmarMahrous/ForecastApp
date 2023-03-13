@@ -7,19 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.alalmiyaalhura.forecastapp.R
 import com.alalmiyaalhura.forecastapp.databinding.FragmentSearchCityBinding
 import com.alalmiyaalhura.forecastapp.ui.util.ActionbarUtil
 import com.alalmiyaalhura.forecastapp.ui.util.MyToast
 import com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SearchCityFragment : Fragment(R.layout.fragment_search_city) {
 
     private val TAG = "SearchCityFragment"
 
 
+    private val viewModel:SearchCityViewModel by viewModels()
 
     private var _binding: FragmentSearchCityBinding? =null
     private val binding: FragmentSearchCityBinding get() =_binding!!
@@ -55,6 +58,7 @@ class SearchCityFragment : Fragment(R.layout.fragment_search_city) {
                 binding.cityInputLayout.error = getString(R.string.city_invalid)
             }else {
                 binding.cityInputLayout.error = null
+                viewModel.setCityName(cityName) // Save city name entered by user in cache
                 ScreensNavigator.navigateToDailyForecastPage(cityName, findNavController())
             }
             }

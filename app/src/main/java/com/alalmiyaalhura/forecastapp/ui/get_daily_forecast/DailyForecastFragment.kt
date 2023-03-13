@@ -8,22 +8,24 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.alalmiyaalhura.forecastapp.R
 import com.alalmiyaalhura.forecastapp.data.model.Forecast
 import com.alalmiyaalhura.forecastapp.data.source.local.database.ForecastDao
 import com.alalmiyaalhura.forecastapp.data.source.remote.daily_forecast.ForecastApi
 import com.alalmiyaalhura.forecastapp.data.util.Status
 import com.alalmiyaalhura.forecastapp.databinding.FragmentDailyForecastBinding
+import com.alalmiyaalhura.forecastapp.ui.data_error_dialog.DataErrorDialogFragment
 import com.alalmiyaalhura.forecastapp.ui.util.ActionbarUtil
+import com.alalmiyaalhura.forecastapp.ui.util.FragmentUtil
 import com.alalmiyaalhura.forecastapp.ui.util.MySnackbar
 import com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator
 import com.alalmiyaalhura.forecastapp.util.NetworkHelper
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
+class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast), DataErrorDialogFragment.IOnRetryClickListener{
 
     private val TAG = "DailyForecastFragment"
 
@@ -74,10 +76,12 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fetchCompetitionDetails()
+        fetchForecasts()
 
 
         checkInternetConnection()
+
+        Log.d(TAG, "onViewCreated: ")
 
     }
 
@@ -89,7 +93,7 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
         }
     }
 
-    private fun fetchCompetitionDetails(){
+    private fun fetchForecasts(){
         viewModel.fetchData()
     }
 
@@ -104,15 +108,20 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
 
                         updateUiListComponent(data)
 
-
                         Log.d(TAG, "getForecasts: " +
                                 "forecast list size = ${data?.size}")
                     }
                     Status.ERROR ->{
                         showLoadingLayout(false)
 
-                        val snackbar = MySnackbar()
-                        snackbar.showMessage(binding.root, resource.message?:"Unknown error")
+                        val errorMessage = resource.message?:"Unknown error"
+
+                        if (isAdded && isVisible)
+                            ScreensNavigator.navigateToDataErrorDialog(errorMessage, findNavController())
+
+
+//                        val snackbar = MySnackbar()
+//                        snackbar.showMessage(binding.root, errorMessage)
 
                     }
 
@@ -169,6 +178,14 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onRetryClick() {
+//        Log.d(TAG, "onRetryClick: ")
+
+        fetchForecasts()
+
+        checkInternetConnection()
     }
 
 }
