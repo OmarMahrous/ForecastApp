@@ -54,7 +54,7 @@ class ForecastRepositoryImpl : ForecastRepository{
 
 
         return try{
-            val localData = localDataSource.getData()
+            val localData = localDataSource.getData() ?: flowOf()
 
 
             localData
@@ -68,7 +68,7 @@ class ForecastRepositoryImpl : ForecastRepository{
     }
 
     override fun getForecasts(): Flow<Resource<List<Forecast?>>> {
-        return remoteDataSource.getData()
+        return remoteDataSource.getData() ?: flowOf()
     }
 
     override fun getError(): Flow<String?> {

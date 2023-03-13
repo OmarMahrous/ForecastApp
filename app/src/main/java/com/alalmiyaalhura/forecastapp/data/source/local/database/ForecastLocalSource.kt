@@ -29,10 +29,16 @@ class ForecastLocalSource(val forecastDao: ForecastDao) : DataSource<List<Foreca
 
 
 
-    override fun getData(): Flow<List<Forecast>> {
+    override fun getData(): Flow<List<Forecast>>? {
 
-        return forecastDao.getForecastsFlow()
+        try {
+            return forecastDao.getForecastsFlow()
 
+        }catch (e:Exception){
+            e.printStackTrace()
+            mError.value = (e.message)
+        }
+        return null
     }
 
     override fun onError(): Flow<String?> {

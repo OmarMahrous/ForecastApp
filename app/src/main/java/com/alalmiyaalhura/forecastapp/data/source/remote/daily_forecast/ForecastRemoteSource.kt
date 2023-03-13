@@ -15,7 +15,7 @@ class ForecastRemoteSource(val forecastApi: ForecastApi) : DataSource<Resource<L
 
     private val mDataApi: MutableStateFlow<Resource<List<Forecast>>> = MutableStateFlow(Resource.loading())
 
-    override fun getData(): Flow<Resource<List<Forecast>>> {
+    override fun getData(): Flow<Resource<List<Forecast>>>? {
         return mDataApi
 
     }

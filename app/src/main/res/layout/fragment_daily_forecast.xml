@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -13,24 +14,50 @@
         <include layout="@layout/custom_action_bar_layout"
             android:id="@+id/action_bar_include"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/forecast_data_llayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:padding="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/black"
-                android:text="Please enter your city name to get the daily forecast"
-                android:layout_marginTop="48dp"/>
+            android:visibility="visible"
+            >
 
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/weather_background_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_weather_bg"
+                android:tint="@color/dark_gray_low_opacity" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/not_accurate_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:background="@drawable/white_rectangle_shape"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@android:color/holo_red_light"
+                    android:text="@string/not_accurate_data"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    app:drawableStartCompat="@drawable/ic_warning"
+                    />
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
 
         <include
             android:id="@+id/loading_layout_include"

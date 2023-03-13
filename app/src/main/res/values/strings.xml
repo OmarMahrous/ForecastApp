@@ -9,4 +9,5 @@
     <string name="dialog_title">Loading daily forecast</string>
     <string name="dialog_message">Sorry, can\'t load data</string>
     <string name="retry">Retry</string>
+    <string name="not_accurate_data">Not Accurate Data</string>
 </resources>

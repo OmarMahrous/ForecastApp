@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast), DataErrorDialogFragment.IOnRetryClickListener{
+class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
 
     private val TAG = "DailyForecastFragment"
 
@@ -86,9 +86,12 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast), DataEr
     }
 
     private fun checkInternetConnection() {
-        if (networkHelper.isNetworkConnected())
+
+        if (networkHelper.isNetworkConnected()) {
+            binding.notAccurateData.visibility = View.GONE
             getForecasts()
-        else {
+        }else {
+            binding.notAccurateData.visibility = View.VISIBLE
             getForecastsFromLocal()
         }
     }
@@ -178,14 +181,6 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast), DataEr
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onRetryClick() {
-//        Log.d(TAG, "onRetryClick: ")
-
-        fetchForecasts()
-
-        checkInternetConnection()
     }
 
 }
