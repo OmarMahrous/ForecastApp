@@ -3,6 +3,7 @@ package com.alalmiyaalhura.forecastapp.ui.search_city
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.alalmiyaalhura.forecastapp.R
 import com.alalmiyaalhura.forecastapp.databinding.FragmentSearchCityBinding
 import com.alalmiyaalhura.forecastapp.ui.util.ActionbarUtil
-import com.alalmiyaalhura.forecastapp.ui.util.MyToast
 import com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator
+import com.alalmiyaalhura.forecastapp.util.MyDateTime
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,6 +47,7 @@ class SearchCityFragment : Fragment(R.layout.fragment_search_city) {
 
         getSearchInputFromUser()
 
+        Log.d(TAG, "onCreateView: hour = ${MyDateTime.getHour("2023-03-13 18:00:00")}")
 
         return binding.root
     }

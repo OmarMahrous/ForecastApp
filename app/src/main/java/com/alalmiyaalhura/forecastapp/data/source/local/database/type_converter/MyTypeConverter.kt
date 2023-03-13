@@ -2,7 +2,6 @@ package com.alalmiyaalhura.forecastapp.data.source.local.database.type_converter
 
 import androidx.room.TypeConverter
 import com.alalmiyaalhura.forecastapp.data.model.Weather
-import com.alalmiyaalhura.forecastapp.databinding.ForecastListItemBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

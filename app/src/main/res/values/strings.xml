@@ -10,4 +10,10 @@
     <string name="dialog_message">Sorry, can\'t load data</string>
     <string name="retry">Retry</string>
     <string name="not_accurate_data">Not Accurate Data</string>
+    <string name="default_temp">55</string>
+    <string name="default_weather">Sunny</string>
+    <string name="today">Today</string>
+    <string name="pressure">Pressure:</string>
+    <string name="sea_level">Sea Level:</string>
+    <string name="wind_speed">Wind speed:</string>
 </resources>

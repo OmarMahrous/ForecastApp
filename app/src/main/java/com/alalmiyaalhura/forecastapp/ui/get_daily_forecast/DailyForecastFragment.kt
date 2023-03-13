@@ -20,8 +20,10 @@ import com.alalmiyaalhura.forecastapp.ui.util.ActionbarUtil
 import com.alalmiyaalhura.forecastapp.ui.util.FragmentUtil
 import com.alalmiyaalhura.forecastapp.ui.util.MySnackbar
 import com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator
+import com.alalmiyaalhura.forecastapp.util.MyDateTime
 import com.alalmiyaalhura.forecastapp.util.NetworkHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_daily_forecast.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,7 +43,7 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
     private var _binding: FragmentDailyForecastBinding? =null
     private val binding: FragmentDailyForecastBinding get() =_binding!!
 
-//    private var listAdapter:CompetitionsAdapter?=null
+    private var listAdapter:ForecastListAdapter?=null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +53,7 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
 
 
         _binding = FragmentDailyForecastBinding.inflate(inflater, container, false)
+
 
         initViewModel()
 
@@ -107,7 +110,10 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
                     Status.SUCCESS -> {
                         showLoadingLayout(false)
 
-                        val data = resource.data
+                        val data = resource.data ?: listOf()
+
+                        val todayForecast = viewModel.getTodayForecast(data)
+                        todayForecast?.let { updateUiViews(it) }
 
                         updateUiListComponent(data)
 
@@ -157,15 +163,30 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
         }
     }
 
+    private fun updateUiViews(forecast: Forecast){
+        with(binding){
+            with(forecast){
+                actionBarInclude.tvTitle.text = getCityName()
+                weatherMain.text = weatherList?.get(0)?.w_main
+                city_temperature.text = ""+main?.temp
 
-    private fun updateUiListComponent(forecastList: List<Forecast?>?) {
-//        binding.competitionsRecyclerView.apply {
-//            if (adapter==null)
-//                adapter = listAdapter
-//
-//            listAdapter?.submitList(competitionList)
-//
-//        }
+                val forecastDate = dtTxt?.let { MyDateTime.getDayOfWeek(it) }
+                dateTextView.text = forecastDate
+
+                maxTempTextView.text = ""+main?.tempMax
+                minTempTextView.text = ""+main?.tempMin
+            }
+        }
+    }
+
+    private fun updateUiListComponent(forecastList: List<Forecast?>) {
+        listAdapter = ForecastListAdapter(requireContext(), forecastList)
+
+        binding.weekForecastsRecyclerview.apply {
+            if (adapter==null)
+                adapter = listAdapter
+
+        }
     }
 
     override fun onResume() {

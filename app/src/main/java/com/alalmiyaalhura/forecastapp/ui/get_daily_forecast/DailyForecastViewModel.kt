@@ -1,5 +1,7 @@
 package com.alalmiyaalhura.forecastapp.ui.get_daily_forecast
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,6 +11,7 @@ import com.alalmiyaalhura.forecastapp.data.repository.forecast.ForecastRepositor
 import com.alalmiyaalhura.forecastapp.data.source.local.database.ForecastDao
 import com.alalmiyaalhura.forecastapp.data.source.remote.daily_forecast.ForecastApi
 import com.alalmiyaalhura.forecastapp.data.util.Resource
+import com.alalmiyaalhura.forecastapp.util.MyDateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -37,6 +40,22 @@ class DailyForecastViewModel constructor(
 
         return forecastRepository.getForecastsFromLocal()
 
+    }
+
+    fun getTodayForecast(forecastList: List<Forecast?>): Forecast? {
+
+        val todayDateTime = MyDateTime.getTodayDateTime()
+
+        val today = MyDateTime.getDate(todayDateTime)
+
+        Log.d(TAG, "getTodayForecast: today = $today")
+
+        for (forecast in forecastList){
+            if (forecast?.dtTxt?.contains(today) == true)
+                return forecast
+        }
+
+        return null
     }
 
 
