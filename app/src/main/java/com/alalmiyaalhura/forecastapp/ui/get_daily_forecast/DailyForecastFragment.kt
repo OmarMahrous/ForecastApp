@@ -147,7 +147,10 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getForecastsFromLocal().collect { list ->
 
-                    updateUiListComponent(list)
+                val todayForecast = viewModel.getTodayForecast(list)
+                todayForecast?.let { updateUiViews(it) }
+
+                updateUiListComponent(list)
 
             }
         }
