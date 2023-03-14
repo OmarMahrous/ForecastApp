@@ -8,10 +8,19 @@ class ListGenerator {
 
         fun createRandomForecastList():ArrayList<Forecast>{
             val forecastList = arrayListOf<Forecast>()
-            forecastList.add(Forecast(0,null, id = 1, weatherList = null, dtTxt = "Today"))
-            forecastList.add(Forecast(0,null, id = 2, weatherList = null, dtTxt = "Yesterday"))
-            forecastList.add(Forecast(0,null, id = 3, weatherList = null, dtTxt = "Tomorrow"))
-            forecastList.add(Forecast(0,null, id = 4, weatherList = null, dtTxt = "18/03/2023"))
+            forecastList.add(Forecast(0,null, id = 1, weatherList = listOf(), dtTxt = "Today"))
+            forecastList.add(Forecast(0,null, id = 2, weatherList = listOf(), dtTxt = "Yesterday"))
+            forecastList.add(Forecast(0,null, id = 3, weatherList = listOf(), dtTxt = "Tomorrow"))
+            forecastList.add(Forecast(0,null, id = 4, weatherList = listOf(), dtTxt = "18/03/2023"))
+
+            return forecastList
+        }
+
+        fun createForecastListWithDuplication(): List<Forecast?>? {
+            val forecastList = arrayListOf<Forecast>()
+            forecastList.add(Forecast(0,null, id = 1, weatherList = listOf(), dtTxt = "Today"))
+            forecastList.add(Forecast(0,null, id = 1, weatherList = listOf(), dtTxt = "Today"))
+            forecastList.add(Forecast(0,null, id = 2, weatherList = listOf(), dtTxt = "Tomorrow"))
 
             return forecastList
         }

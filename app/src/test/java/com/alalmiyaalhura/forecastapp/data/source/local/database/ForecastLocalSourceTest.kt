@@ -2,14 +2,9 @@ package com.alalmiyaalhura.forecastapp.data.source.local.database
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
-import com.alalmiyaalhura.forecastapp.ForecastApp
-import com.alalmiyaalhura.forecastapp.data.source.remote.api_service.ApiGenerator
-import com.alalmiyaalhura.forecastapp.data.source.remote.daily_forecast.ForecastApi
-import com.alalmiyaalhura.forecastapp.data.source.remote.daily_forecast.ForecastRemoteSource
+import com.alalmiyaalhura.forecastapp.data.model.Forecast
 import com.alalmiyaalhura.forecastapp.data.util.ListGenerator
-import com.google.common.truth.ExpectFailure.assertThat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.resetMain
@@ -19,9 +14,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.concurrent.CountDownLatch
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(AndroidJUnit4::class)
+
+@RunWith(RobolectricTestRunner::class)
 class ForecastLocalSourceTest{
 
     private var localSource: ForecastLocalSource?=null
@@ -44,57 +40,68 @@ class ForecastLocalSourceTest{
     @Test
     fun insertForecasts_returnsTrue() = runTest {
 
-
-//        launch (Dispatchers.Main) {
-
             val forecastList = ListGenerator.createRandomForecastList()
 
 
             localSource?.saveForecasts(forecastList)
 
-            val actualList = localSource?.getData()?.test {
+            localSource?.getData()?.test {
                 val list = awaitItem()
                 assert(list.contains(forecastList[0]))
                 assert(list.contains(forecastList[1]))
                 cancel()
             }
-
-//            assert(actualList?.isEmpty() == false)
-//            assert(actualList == forecastList)
-//            assert(actualList?.size == forecastList.size)
-//            assertThat(AssertionError(actualList?.size)).isEqualTo(forecastList.size)
-
-//        }
     }
 
-//    @Test
-//    fun insertWord_returnsTrue() = runTest {
-//        val forecastList = ListGenerator.createRandomForecastList()
-//
-//        localSource?.saveForecasts(forecastList)
-//
-//
-//        val actual = localSource?.getData()?.first()
-////            forecastDao?.getForecastsFlow()?.collect {
-//        assertThat(AssertionError(actual?.size)).isEqualTo(forecastList.size)
-//
-////            }
-//    }
+    @Test
+    fun `insert forecasts with duplicated values, function should replace conflict`() = runTest {
 
-//    @Test
-//    fun `for cityName not available or invalid, api must return with http code 404 not found`() = runTest {
 
-//        launch (Dispatchers.Main) {
-//            remoteSource?.fetch("fakeCity")
+        val duplicatedForecastList = ListGenerator.createForecastListWithDuplication()
 
-//            val responseError = remoteSource?.onError()?.first()
-//            val actualResponse = remoteSource?.getData()?.first()?.data
 
-//            assert(responseError != null)
-//            assert(actualResponse == null)
+        localSource?.saveForecasts(duplicatedForecastList)
 
-//        }
-//    }
+        localSource?.getData()?.test {
+            val list = awaitItem()
+            assert(list.size == 2)
+            assert(list != duplicatedForecastList)
+            cancel()
+        }
+    }
+
+    @Test
+    fun insertEmptyForecastList() = runTest {
+        val emptyForecastList = emptyList<Forecast>()
+
+
+        localSource?.saveForecasts(emptyForecastList)
+
+        localSource?.getData()?.test {
+            val list = awaitItem()
+            assert(list.isEmpty())
+            assert(list == emptyForecastList)
+            cancel()
+        }
+    }
+
+    @Test
+    fun deleteForecastList() = runTest {
+
+        val forecastList = ListGenerator.createRandomForecastList()
+
+
+        localSource?.saveForecasts(forecastList)
+
+        localSource?.deleteAllForecasts()
+
+        localSource?.getData()?.test {
+            val list = awaitItem()
+            assert(list.isEmpty())
+            assert(list != forecastList)
+            cancel()
+        }
+    }
 
 
 
