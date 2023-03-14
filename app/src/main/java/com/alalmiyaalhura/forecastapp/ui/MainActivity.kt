@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.alalmiyaalhura.forecastapp.R
+import com.alalmiyaalhura.forecastapp.data.source.local.database.ForecastDatabase
 import com.alalmiyaalhura.forecastapp.ui.util.ActionbarUtil
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupScreensNavigation()
+
 
     }
 

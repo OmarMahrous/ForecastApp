@@ -1,22 +1,27 @@
 package com.alalmiyaalhura.forecastapp.data.source.local.database
 
 import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.cash.turbine.test
 import com.alalmiyaalhura.forecastapp.ForecastApp
 import com.alalmiyaalhura.forecastapp.data.source.remote.api_service.ApiGenerator
 import com.alalmiyaalhura.forecastapp.data.source.remote.daily_forecast.ForecastApi
 import com.alalmiyaalhura.forecastapp.data.source.remote.daily_forecast.ForecastRemoteSource
-import kotlinx.coroutines.Dispatchers
+import com.alalmiyaalhura.forecastapp.data.util.ListGenerator
+import com.google.common.truth.ExpectFailure.assertThat
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import java.util.concurrent.CountDownLatch
 
-
+@RunWith(AndroidJUnit4::class)
 class ForecastLocalSourceTest{
 
     private var localSource: ForecastLocalSource?=null
@@ -30,44 +35,66 @@ class ForecastLocalSourceTest{
     @Before
     fun setUp() {
         Dispatchers.setMain(mainThreadSurrogate)
-        forecastDb = Room.inMemoryDatabaseBuilder(ForecastApp.getAppContext(), ForecastDatabase::class.java)
+        forecastDb = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), ForecastDatabase::class.java)
             .allowMainThreadQueries().build()
         forecastDao = forecastDb.forecastDao()
         localSource = ForecastLocalSource(forecastDao!!)
     }
 
     @Test
-    fun `for multiple forecasts, api must return all forecasts with http code 200`() = runTest {
+    fun insertForecasts_returnsTrue() = runTest {
 
 
-        launch (Dispatchers.Main) {
-            remoteSource?.fetch("cairo")
+//        launch (Dispatchers.Main) {
 
-            val responseError = remoteSource?.onError()?.first()
-            val actualResponse = remoteSource?.getData()?.first()?.data
+            val forecastList = ListGenerator.createRandomForecastList()
 
 
-            assert(responseError == null)
-            assert(actualResponse != null)
+            localSource?.saveForecasts(forecastList)
 
-        }
+            val actualList = localSource?.getData()?.test {
+                val list = awaitItem()
+                assert(list.contains(forecastList[0]))
+                assert(list.contains(forecastList[1]))
+                cancel()
+            }
+
+//            assert(actualList?.isEmpty() == false)
+//            assert(actualList == forecastList)
+//            assert(actualList?.size == forecastList.size)
+//            assertThat(AssertionError(actualList?.size)).isEqualTo(forecastList.size)
+
+//        }
     }
 
-    @Test
-    fun `for cityName not available or invalid, api must return with http code 404 not found`() = runTest {
+//    @Test
+//    fun insertWord_returnsTrue() = runTest {
+//        val forecastList = ListGenerator.createRandomForecastList()
+//
+//        localSource?.saveForecasts(forecastList)
+//
+//
+//        val actual = localSource?.getData()?.first()
+////            forecastDao?.getForecastsFlow()?.collect {
+//        assertThat(AssertionError(actual?.size)).isEqualTo(forecastList.size)
+//
+////            }
+//    }
 
-        launch (Dispatchers.Main) {
-            remoteSource?.fetch("fakeCity")
+//    @Test
+//    fun `for cityName not available or invalid, api must return with http code 404 not found`() = runTest {
 
-            val responseError = remoteSource?.onError()?.first()
-            val actualResponse = remoteSource?.getData()?.first()?.data
+//        launch (Dispatchers.Main) {
+//            remoteSource?.fetch("fakeCity")
 
+//            val responseError = remoteSource?.onError()?.first()
+//            val actualResponse = remoteSource?.getData()?.first()?.data
 
-            assert(responseError != null)
-            assert(actualResponse == null)
+//            assert(responseError != null)
+//            assert(actualResponse == null)
 
-        }
-    }
+//        }
+//    }
 
 
 
