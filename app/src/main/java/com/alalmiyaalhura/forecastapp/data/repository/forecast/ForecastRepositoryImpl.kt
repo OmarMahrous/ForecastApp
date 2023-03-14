@@ -21,9 +21,9 @@ class ForecastRepositoryImpl : ForecastRepository{
     private val cityName:String
 
     private val remoteDataSource: ForecastRemoteSource
-    private val localDataSource: ForecastLocalSource
+    private var localDataSource: ForecastLocalSource? = null
 
-    private val coroutineScope: CoroutineScope
+    private var coroutineScope: CoroutineScope? = null
 
     constructor(
         cityName:String,
@@ -40,6 +40,16 @@ class ForecastRepositoryImpl : ForecastRepository{
         this.coroutineScope = coroutineScope
     }
 
+    constructor(
+        cityName:String,
+        remoteDataSource: ForecastRemoteSource,
+    )
+    {
+        this.cityName = cityName
+
+        this.remoteDataSource = remoteDataSource
+    }
+
     companion object{
         fun create(forecastApi: ForecastApi, forecastDao: ForecastDao, cityName: String, coroutineScope: CoroutineScope): ForecastRepository {
             val remoteDataSource = ForecastRemoteSource(forecastApi)
@@ -54,7 +64,7 @@ class ForecastRepositoryImpl : ForecastRepository{
 
 
         return try{
-            val localData = localDataSource.getData() ?: flowOf()
+            val localData = localDataSource?.getData() ?: flowOf()
 
 
             localData
@@ -99,8 +109,8 @@ class ForecastRepositoryImpl : ForecastRepository{
 
     private suspend fun saveForecastsInCache(forecastList: List<Forecast?>?) {
 
-        localDataSource.deleteAllForecasts() // Reset data
-        localDataSource.saveForecasts(forecastList)
+        localDataSource?.deleteAllForecasts() // Reset data
+        localDataSource?.saveForecasts(forecastList)
     }
 
 

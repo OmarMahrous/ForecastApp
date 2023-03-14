@@ -1,8 +1,6 @@
 package com.alalmiyaalhura.forecastapp.ui.get_daily_forecast
 
-import android.content.ContentValues.TAG
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,8 +12,6 @@ import com.alalmiyaalhura.forecastapp.util.MyDateTime
 class ForecastListAdapter(val context: Context,
                           val forecastList: List<Forecast?>)
     : RecyclerView.Adapter<ForecastListAdapter.ForecastViewHolder>() {
-
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
@@ -37,16 +33,6 @@ class ForecastListAdapter(val context: Context,
 
             } else
                 holder.binding.dateTextView.text = it.dtTxt?.let { MyDateTime.getDate(it) }
-
-//            if (position <= 5) {
-//                if (isTodayForecast(currentForecast))
-//                    holder.binding.dateTextView.text = it.dtTxt?.let { it1 -> MyDateTime.getHour(it1) }
-//                else
-//                    holder.binding.dateTextView.text = getForecastDayDate(it.dtTxt)
-//            }else if (isTodayForecast(currentForecast))
-//                holder.binding.dateTextView.text = it.dtTxt?.let { it1 -> MyDateTime.getHour(it1) }
-//             else
-//                holder.binding.dateTextView.text = it.dtTxt?.let { MyDateTime.getDate(it) }
 
             val weatherMain = it.weatherList?.get(0)?.w_main ?: ""
             holder.binding.weatherImageView.setImageDrawable(context.getDrawable(getWeatherIcon(weatherMain)))
