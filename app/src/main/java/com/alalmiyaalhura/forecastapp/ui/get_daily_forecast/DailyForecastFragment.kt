@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +24,7 @@ import com.alalmiyaalhura.forecastapp.ui.util.ScreensNavigator
 import com.alalmiyaalhura.forecastapp.util.MyDateTime
 import com.alalmiyaalhura.forecastapp.util.NetworkHelper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_daily_forecast.*
+//import kotlinx.android.synthetic.main.fragment_daily_forecast.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -129,9 +130,6 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
                             ScreensNavigator.navigateToDataErrorDialog(errorMessage, findNavController())
 
 
-//                        val snackbar = MySnackbar()
-//                        snackbar.showMessage(binding.root, errorMessage)
-
                     }
 
                     else -> {
@@ -156,7 +154,8 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
         }
     }
 
-    private fun showLoadingLayout(isLoadingData:Boolean){
+    @VisibleForTesting
+    fun showLoadingLayout(isLoadingData:Boolean){
         if (isLoadingData){
             binding.forecastDataLlayout.visibility = View.GONE
             binding.loadingLayoutInclude.root.visibility = View.VISIBLE
@@ -171,7 +170,7 @@ class DailyForecastFragment : Fragment(R.layout.fragment_daily_forecast){
             with(forecast){
                 actionBarInclude.tvTitle.text = getCityName()
                 weatherMain.text = weatherList?.get(0)?.w_main
-                city_temperature.text = ""+main?.temp
+                cityTemperature.text = ""+main?.temp
 
                 val forecastDate = dtTxt?.let { MyDateTime.getDayOfWeek(it) }
                 dateTextView.text = forecastDate

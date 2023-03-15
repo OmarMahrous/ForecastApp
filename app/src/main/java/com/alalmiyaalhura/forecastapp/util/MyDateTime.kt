@@ -34,10 +34,17 @@ companion object {
     }
 
     fun getDate(dateTime: String): String {
-        val stringArray = dateTime.split(" ") // 2023-03-13 18:00:00
-        val date = stringArray[0]
+        try {
 
-        return date
+
+            val stringArray = dateTime.split(" ") // 2023-03-13 18:00:00
+            val date = stringArray[0]
+
+            return date
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        return ""
     }
 
     fun getTodayDateTime(): String {
@@ -54,20 +61,32 @@ companion object {
     }
 
     fun getDayOfWeek(dateTime:String): String {
-        val dayOfWeekFormatter = SimpleDateFormat("EEEE")
-        val date = dateTimeFormatter().parse(dateTime);
-        val dayOfTheWeek = dayOfWeekFormatter.format(date)
-        return dayOfTheWeek
+        try {
+            val dayOfWeekFormatter = SimpleDateFormat("EEEE")
+            val date = dateTimeFormatter().parse(dateTime);
+            val dayOfTheWeek = dayOfWeekFormatter.format(date)
+            return dayOfTheWeek
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        return ""
     }
 
     /**
      * Get current time in 12 hour format with AM/PM
      */
     fun getHour(dateTime:String):String{
-        val hourDateFormat: DateFormat = SimpleDateFormat("hh a")
-        val date = dateTimeFormatter().parse(dateTime);
-        val hour = hourDateFormat.format(date)
-        return hour
+        try {
+
+
+            val hourDateFormat: DateFormat = SimpleDateFormat("hh a")
+            val date = dateTimeFormatter().parse(dateTime);
+            val hour = hourDateFormat.format(date)
+            return hour
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        return ""
     }
 }
 }
